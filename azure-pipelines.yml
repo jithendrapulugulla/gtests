@@ -13,6 +13,17 @@ stages:
     jobs:
       - job: job1
         steps:
-          - script: cat prac.txt
-            displayName: "this is txt file"
+          
+          - script: python first.py
+            displayName: "this is python file"
+          - task: CopyFiles@2
+            displayName: "Copy Python file to artifact staging"
+            inputs:
+              contents: "first.py"
+              targetFolder: "$(Build.ArtifactStagingDirectory)"
+ 
+    # Publish artifact
+          - publish: $(Build.ArtifactStagingDirectory)
+            artifact: drop
+            displayName: 'Publish Artifact'
             
